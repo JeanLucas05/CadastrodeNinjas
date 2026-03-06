@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+ninjasdb.mv.db
+.env
