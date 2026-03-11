@@ -34,3 +34,4 @@ build/
 
 ninjasdb.mv.db
 .env
+/data
