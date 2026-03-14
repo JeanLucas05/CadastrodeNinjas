@@ -1,9 +1,7 @@
 package dev.java10x.CadastrodeNinjas.Missoes;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import dev.java10x.CadastrodeNinjas.Ninjas.NinjaModel;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -11,15 +9,27 @@ import java.util.List;
 public class MissoesController {
     private MissoesService missoesService;
 
+    //Criar Missoes
+    @PostMapping("missoes")
+    public MissoesModel cadastrarMissoes(@RequestBody MissoesModel missoes){
+        return missoesService.criarMisssoes(missoes);
+    }
     public MissoesController(MissoesService missoesService) {
         this.missoesService = missoesService;
     }
-    @GetMapping("missoes/all")
+    @GetMapping("missoes")
     public List<MissoesModel> listarmissoes(){
         return missoesService.listarmissoes();
     }
     @GetMapping("missoes/{id}")
-    public MissoesModel findById(@PathVariable Long id ){
+    public MissoesModel missoesporid(@PathVariable Long id ){
         return missoesService.findByid(id);
     }
+
+    //Deletar Missoes
+    @DeleteMapping("missoes/{id}")
+    public String deletarMissoes(@PathVariable Long id){
+        return missoesService.deletarmissoes(id);
+    }
+
 }

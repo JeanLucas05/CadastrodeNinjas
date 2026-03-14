@@ -18,20 +18,20 @@ public class NinjaController {
         return "Esta e a minha primeira mensagem nessa rota";
     }
     //criar ninja
-    @PostMapping("/ninjas/create")
+    @PostMapping("/ninjas")
     public NinjaModel ninjacreate(@RequestBody NinjaModel ninja){
         return ninjaService.cadastrarNinja(ninja);
     }
 
     //Buscar todos os ninjas
-    @GetMapping("ninja/all")
+    @GetMapping("ninjas")
     public List<NinjaModel> listarninjas(){
         return ninjaService.listarninjas();
     }
 
     //Buscar ninja por id
-    @GetMapping("ninja/{id}")
-    public NinjaModel findById(@PathVariable Long id){
+    @GetMapping("ninjas/{id}")
+    public NinjaModel buscarporId(@PathVariable Long id){
         return ninjaService.findById(id);
     }
 
@@ -42,9 +42,10 @@ public class NinjaController {
     }
 
     //Deletar Ninja
-    @DeleteMapping("/delete")
-    public String deleteforid(){
-        return "Ninja Deletado";
+    @DeleteMapping("ninjas/{id}")
+    public String deletarNinjaPorid(@PathVariable Long id)
+    {
+         return ninjaService.apagarNinja(id);
     }
 
 
