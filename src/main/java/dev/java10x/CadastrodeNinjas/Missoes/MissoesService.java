@@ -31,6 +31,19 @@ public class MissoesService {
         return missoesPorId.orElse(null);
     }
 
+    public MissoesModel atualizarMissoes(Long id , MissoesModel missoesModel){
+        if (missoesRepository.existsById(id)){
+            MissoesModel missoes = missoesRepository.findById(id).get();
+            missoes.setNomedamissao(missoesModel.getNomedamissao());
+            missoes.setDificuldade(missoesModel.getDificuldade());
+            missoes.setNinjas(missoesModel.getNinjas());
+            return missoesRepository.save(missoes);
+
+        }else {
+            return null;
+        }
+    }
+
     public String deletarmissoes(Long id){
         if (missoesRepository.existsById(id)){
              missoesRepository.deleteById(id);

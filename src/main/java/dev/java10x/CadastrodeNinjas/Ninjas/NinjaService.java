@@ -31,6 +31,19 @@ public class NinjaService {
     }
 
     //Atualizar Ninja
+    public NinjaModel atualizar(Long id, NinjaModel ninjaatualizado){
+        if(ninjaRepository.existsById(id)){
+            NinjaModel ninja = ninjaRepository.findById(id).get();
+            ninja.setNome(ninjaatualizado.getNome());
+            ninja.setEmail(ninjaatualizado.getEmail());
+            ninja.setIdade(ninjaatualizado.getIdade());
+            ninja.setMissoes(ninjaatualizado.getMissoes());
+            return ninjaRepository.save(ninja);
+
+        }else {
+            return null;
+        }
+    }
 
 
 

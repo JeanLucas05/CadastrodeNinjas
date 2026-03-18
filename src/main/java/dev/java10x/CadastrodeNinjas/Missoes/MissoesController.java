@@ -26,6 +26,11 @@ public class MissoesController {
         return missoesService.findByid(id);
     }
 
+
+    @PutMapping("missoes/{id}")
+    public MissoesModel atualizarMissoes(@PathVariable Long id ,@RequestBody MissoesModel missoes ){
+        return missoesService.atualizarMissoes(id, missoes);
+    }
     //Deletar Missoes
     @DeleteMapping("missoes/{id}")
     public String deletarMissoes(@PathVariable Long id){
