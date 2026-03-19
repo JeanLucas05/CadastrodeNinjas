@@ -10,35 +10,45 @@ import java.util.Optional;
 public class NinjaService {
     // @Autowired constroi um construtor
     private NinjaRepository ninjaRepository;
+    private NinjaMapper ninjaMapper;
 
-    public NinjaService(NinjaRepository ninjaRepository) {
+
+    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) {
         this.ninjaRepository = ninjaRepository;
+        this.ninjaMapper = ninjaMapper;
     }
+
     //Cadastrar novo ninja
-    public NinjaModel cadastrarNinja(NinjaModel ninja){
-        return ninjaRepository.save(ninja);
+    public NinjaDTO cadastrarNinja(NinjaDTO ninjaDTO){
+        NinjaModel ninja = ninjaMapper.map(ninjaDTO);
+        ninja = ninjaRepository.save(ninja);
+        return ninjaMapper.map(ninja);
     }
     //Listar todos os ninjas
-    public List<NinjaModel> listarninjas(){
-        return ninjaRepository.findAll();
+    public List<NinjaDTO> listarninjas(){
+        return ninjaRepository.findAll().stream().map(ninjaMapper::map).toList();
 
 
     }
-    // Procurar pelo {id} do ninja
-    public NinjaModel findById(Long id){
-        Optional<NinjaModel> ninjaporId = ninjaRepository.findById(id);
-        return ninjaporId.orElse(null);
+    public NinjaDTO buscarPorid(Long id ){
+        return ninjaRepository.findById(id).map(ninjaMapper::map).orElse(null);
+
+
     }
 
     //Atualizar Ninja
-    public NinjaModel atualizar(Long id, NinjaModel ninjaatualizado){
+    public NinjaDTO atualizar(Long id, NinjaDTO ninjaDTO){
         if(ninjaRepository.existsById(id)){
             NinjaModel ninja = ninjaRepository.findById(id).get();
-            ninja.setNome(ninjaatualizado.getNome());
-            ninja.setEmail(ninjaatualizado.getEmail());
-            ninja.setIdade(ninjaatualizado.getIdade());
-            ninja.setMissoes(ninjaatualizado.getMissoes());
-            return ninjaRepository.save(ninja);
+            ninja.setNome(ninjaDTO.getNome());
+            ninja.setEmail(ninjaDTO.getEmail());
+            ninja.setIdade(ninjaDTO.getIdade());
+            ninja.setMissoes(ninjaDTO.getMissoes());
+            ninja.setRank(ninjaDTO.getRank());
+            ninja.setImgurl(ninjaDTO.getImgurl());
+            ninja = ninjaRepository.save(ninja);
+
+            return ninjaMapper.map(ninja);
 
         }else {
             return null;
