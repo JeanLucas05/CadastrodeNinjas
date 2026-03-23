@@ -36,4 +36,4 @@ O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar inform
 | **Flyway** | Latest | Versionamento de banco de dados |
 | **Maven** | 3.8+ | Gerenciador de dependências |
 
-## 📦 Estrutura do Projeto
+
