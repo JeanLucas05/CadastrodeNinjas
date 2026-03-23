@@ -9,35 +9,42 @@ import java.util.Optional;
 @Service
 public class MissoesService {
     private MissoesRepository missoesRepository;
+    private MissoesMapper missoesMapper;
 
-    public MissoesService(MissoesRepository missoesRepository) {
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
         this.missoesRepository = missoesRepository;
+        this.missoesMapper = missoesMapper;
     }
+
     //criar missoes
-    public MissoesModel criarMisssoes(MissoesModel missoes){
-        return missoesRepository.save(missoes);
+    public MissoesDTO criarMisssoes(MissoesDTO missoesDTO){
+        MissoesModel missoesModel = missoesMapper.map(missoesDTO);
+        missoesModel = missoesRepository.save(missoesModel);
+        return missoesMapper.map(missoesModel);
+
     }
 
     //Listar todas as Missoes
 
-    public List<MissoesModel> listarmissoes(){
-        return missoesRepository.findAll();
+    public List<MissoesDTO> listarmissoes(){
+        return missoesRepository.findAll().stream().map(missoesMapper::map).toList();
     }
 
     //Listar Misso por id
 
-    public MissoesModel findByid(Long id){
-        Optional<MissoesModel> missoesPorId = missoesRepository.findById(id);
-        return missoesPorId.orElse(null);
+    public MissoesDTO findByid(Long id){
+        return missoesRepository.findById(id).map(missoesMapper::map).orElse(null);
     }
 
-    public MissoesModel atualizarMissoes(Long id , MissoesModel missoesModel){
+    public MissoesDTO atualizarMissoes(Long id , MissoesDTO missoesDTO){
         if (missoesRepository.existsById(id)){
             MissoesModel missoes = missoesRepository.findById(id).get();
-            missoes.setNomedamissao(missoesModel.getNomedamissao());
-            missoes.setDificuldade(missoesModel.getDificuldade());
-            missoes.setNinjas(missoesModel.getNinjas());
-            return missoesRepository.save(missoes);
+            missoes.setNomedamissao(missoesDTO.getNomedamissao());
+            missoes.setDificuldade(missoesDTO.getDificuldade());
+            missoes.setNinjas(missoesDTO.getNinjas());
+            missoes = missoesRepository.save(missoes);
+
+            return missoesMapper.map(missoes);
 
         }else {
             return null;
