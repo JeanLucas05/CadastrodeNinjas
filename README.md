@@ -1,24 +1,39 @@
-# Ninja Registry API
+# 🥷 Cadastro de Ninjas - API REST
 
-## Overview
-The Ninja Registry API allows users to manage their list of ninjas with features for adding, updating, and deleting ninja records. It is designed to provide a simple and efficient way for users to interact with their ninja data.
+Uma API REST robusta desenvolvida com **Spring Boot** para gerenciar um cadastro completo de ninjas e suas missões. O projeto foi desenvolvido como parte do curso **Java10x**.
 
-## Features
-- **Add Ninja:** Add a new ninja with relevant details like name, age, and skills.
-- **Update Ninja:** Modify existing ninja records.
-- **Delete Ninja:** Remove a ninja from the registry.
+## 📋 Sobre o Projeto
 
-## Usage
-To use the Ninja Registry API, send requests to the following endpoints:
-- `POST /ninjas` - To add a new ninja.
-- `PUT /ninjas/{id}` - To update an existing ninja.
-- `DELETE /ninjas/{id}` - To delete a ninja.
+O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações CRUD completas (Create, Read, Update, Delete) para ambas as entidades.
 
-## Installation
-Clone the repository and install dependencies using:
-```
-npm install
-```
+## 🎯 Funcionalidades
 
-## Contribution
-Feel free to contribute to the project by submitting a pull request or reporting issues.
+### Ninjas
+- ✅ Criar novo ninja
+- ✅ Listar todos os ninjas
+- ✅ Buscar ninja por ID
+- ✅ Atualizar informações de ninja
+- ✅ Deletar ninja
+- ✅ Validação de email único
+
+### Missões
+- ✅ Criar nova missão
+- ✅ Listar todas as missões
+- ✅ Buscar missão por ID
+- ✅ Atualizar detalhes da missão
+- ✅ Deletar missão
+- ✅ Associar ninjas a missões com diferentes níveis de dificuldade
+
+## 🛠 Tecnologias Utilizadas
+
+| Tecnologia | Versão | Descrição |
+|-----------|--------|-----------|
+| **Java** | 17+ | Linguagem principal |
+| **Spring Boot** | 4.0.3 | Framework web e IoC |
+| **Spring Data JPA** | Latest | Camada de persistência |
+| **H2 Database** | Latest | Banco de dados em memória (desenvolvimento) |
+| **Lombok** | Latest | Geração automática de boilerplate |
+| **Flyway** | Latest | Versionamento de banco de dados |
+| **Maven** | 3.8+ | Gerenciador de dependências |
+
+## 📦 Estrutura do Projeto
