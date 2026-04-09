@@ -9,8 +9,8 @@ import java.util.Optional;
 @Service
 public class NinjaService {
     // @Autowired constroi um construtor
-    private NinjaRepository ninjaRepository;
-    private NinjaMapper ninjaMapper;
+    private final NinjaRepository ninjaRepository;
+    private final NinjaMapper ninjaMapper;
 
 
     public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) {

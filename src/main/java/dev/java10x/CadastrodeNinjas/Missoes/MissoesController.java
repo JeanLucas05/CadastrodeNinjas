@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class MissoesController {
-    private MissoesService missoesService;
+    private final MissoesService missoesService;
 
     //Criar Missoes
     @PostMapping("missoes")
