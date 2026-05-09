@@ -50,14 +50,11 @@ public class NinjaController {
 
 
     //Atualizar Ninja
-    @PutMapping("ninjas/{id}")
+    @PatchMapping("ninjas/{id}")
     public ResponseEntity<ApiResponse> atualizar(@PathVariable Long id , @RequestBody NinjaDTO ninjaDTO){
-        if (ninjaService.buscarPorid(id) != null){
-            NinjaDTO ninjaDTO1 = ninjaService.atualizar(id, ninjaDTO);
-            return ResponseEntity.status(200).body(new ApiResponse("Ninja atualizado com sucesso", ninjaDTO1));
-        }else{
-            return ResponseEntity.status(404).body(new ApiResponse("Ninja nao foi encontrado",null));
-        }
+        NinjaDTO ninjaatualizada = ninjaService.atualizar(id,ninjaDTO);
+
+        return ResponseEntity.ok().body(new ApiResponse("Ninja Atualizado!!",ninjaatualizada));
 
     }
 

@@ -1,7 +1,9 @@
 package dev.java10x.CadastrodeNinjas.Missoes;
 
 import dev.java10x.CadastrodeNinjas.Ninjas.NinjaModel;
+import dev.java10x.CadastrodeNinjas.Ninjas.NinjaService;
 import org.springframework.stereotype.Service;
+import dev.java10x.CadastrodeNinjas.Ninjas.NinjaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +12,12 @@ import java.util.Optional;
 public class MissoesService {
     private final MissoesRepository missoesRepository;
     private final MissoesMapper missoesMapper;
+    private final NinjaRepository ninjaRepository;
 
-    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper, NinjaRepository ninjaRepository) {
         this.missoesRepository = missoesRepository;
         this.missoesMapper = missoesMapper;
+        this.ninjaRepository = ninjaRepository;
     }
 
     //criar missoes
@@ -32,23 +36,26 @@ public class MissoesService {
 
     //Listar Misso por id
 
-    public MissoesDTO findByid(Long id){
-        return missoesRepository.findById(id).map(missoesMapper::map).orElse(null);
+    public Optional<MissoesDTO> findByid(Long id){
+        return missoesRepository.findById(id).map(missoesMapper::map);
     }
+    public MissoesDTO atualizarMissoes(Long id, MissoesDTO missoesDTO) {
 
-    public MissoesDTO atualizarMissoes(Long id , MissoesDTO missoesDTO){
-        if (missoesRepository.existsById(id)){
-            MissoesModel missoes = missoesRepository.findById(id).get();
-            missoes.setNomedamissao(missoesDTO.getNomedamissao());
-            missoes.setDificuldade(missoesDTO.getDificuldade());
-            missoes.setNinjas(missoesDTO.getNinjas());
-            missoes = missoesRepository.save(missoes);
+        MissoesModel missoesModel = missoesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Missao nao encontrada"));
 
-            return missoesMapper.map(missoes);
-
-        }else {
-            return null;
+        if (missoesDTO.getNomedamissao() != null) {
+            missoesModel.setNomedamissao(missoesDTO.getNomedamissao());
         }
+
+        if (missoesDTO.getDificuldade() != null) {
+            missoesModel.setDificuldade(missoesDTO.getDificuldade());
+        }
+
+
+        MissoesModel missaoSalva = missoesRepository.save(missoesModel);
+
+        return missoesMapper.map(missaoSalva);
     }
 
     public String deletarmissoes(Long id){

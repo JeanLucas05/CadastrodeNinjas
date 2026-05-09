@@ -15,5 +15,5 @@ public class MissoesDTO {
     private Long id;
     private String nomedamissao;
     private String dificuldade;
-    private List<NinjaModel> Ninjas;
+    private List<NinjaModel> ninjas;
 }

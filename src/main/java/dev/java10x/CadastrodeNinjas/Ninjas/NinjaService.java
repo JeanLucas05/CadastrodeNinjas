@@ -1,21 +1,25 @@
 package dev.java10x.CadastrodeNinjas.Ninjas;
 
 
+import dev.java10x.CadastrodeNinjas.Missoes.MissoesModel;
 import org.springframework.stereotype.Service;
+import dev.java10x.CadastrodeNinjas.Missoes.MissoesRepository;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class NinjaService {
     // @Autowired constroi um construtor
     private final NinjaRepository ninjaRepository;
     private final NinjaMapper ninjaMapper;
+    private final MissoesRepository missoesRepository;
 
 
-    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper) {
+    public NinjaService(NinjaRepository ninjaRepository, NinjaMapper ninjaMapper, MissoesRepository missoesRepository) {
         this.ninjaRepository = ninjaRepository;
         this.ninjaMapper = ninjaMapper;
+        this.missoesRepository = missoesRepository;
     }
 
     //Cadastrar novo ninja
@@ -38,21 +42,39 @@ public class NinjaService {
 
     //Atualizar Ninja
     public NinjaDTO atualizar(Long id, NinjaDTO ninjaDTO){
-        if(ninjaRepository.existsById(id)){
-            NinjaModel ninja = ninjaRepository.findById(id).get();
-            ninja.setNome(ninjaDTO.getNome());
-            ninja.setEmail(ninjaDTO.getEmail());
-            ninja.setIdade(ninjaDTO.getIdade());
-            ninja.setMissoes(ninjaDTO.getMissoes());
-            ninja.setRank(ninjaDTO.getRank());
-            ninja.setImgurl(ninjaDTO.getImgurl());
-            ninja = ninjaRepository.save(ninja);
 
-            return ninjaMapper.map(ninja);
+        NinjaModel ninjaModel = ninjaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ninja nao encontrado!!"));
+        if(ninjaDTO.getNome() != null){
+            ninjaModel.setNome(ninjaDTO.getNome());
 
-        }else {
-            return null;
         }
+        if (ninjaDTO.getEmail() != null){
+            ninjaModel.setEmail(ninjaDTO.getEmail());
+        }
+        if (ninjaDTO.getIdade() != null ){
+            ninjaModel.setIdade(ninjaDTO.getIdade());
+        }
+
+        if (ninjaDTO.getRank() != null){
+            ninjaModel.setRank(ninjaDTO.getRank());
+        }
+        if (ninjaDTO.getImgurl() != null){
+            ninjaModel.setImgurl(ninjaDTO.getImgurl());
+        }
+        if (ninjaDTO.getMissoes() != null) {
+
+            MissoesModel missao = missoesRepository
+                    .findById(ninjaDTO.getMissoes().getId())
+                    .orElseThrow(() -> new RuntimeException("Missao nao encontrada"));
+
+            ninjaModel.setMissoes(missao);
+        }
+
+        NinjaModel ninjaSalvo = ninjaRepository.save(ninjaModel);
+
+        return ninjaMapper.map(ninjaSalvo);
+
     }
 
 
