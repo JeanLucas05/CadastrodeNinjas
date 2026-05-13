@@ -1,23 +1,22 @@
 package dev.java10x.CadastrodeNinjas.Missoes;
 
-import dev.java10x.CadastrodeNinjas.Ninjas.NinjaModel;
-import dev.java10x.CadastrodeNinjas.Ninjas.NinjaService;
+import dev.java10x.CadastrodeNinjas.Execptions.MissaoNotFoundException;
+
 import org.springframework.stereotype.Service;
-import dev.java10x.CadastrodeNinjas.Ninjas.NinjaRepository;
+
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class MissoesService {
     private final MissoesRepository missoesRepository;
     private final MissoesMapper missoesMapper;
-    private final NinjaRepository ninjaRepository;
 
-    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper, NinjaRepository ninjaRepository) {
+
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
         this.missoesRepository = missoesRepository;
         this.missoesMapper = missoesMapper;
-        this.ninjaRepository = ninjaRepository;
     }
 
     //criar missoes
@@ -36,13 +35,14 @@ public class MissoesService {
 
     //Listar Misso por id
 
-    public Optional<MissoesDTO> findByid(Long id){
-        return missoesRepository.findById(id).map(missoesMapper::map);
+    public MissoesDTO findByid(Long id){
+        return missoesRepository.findById(id).map(missoesMapper::map)
+                .orElseThrow(() -> new MissaoNotFoundException("Missão não encontrada "));
     }
     public MissoesDTO atualizarMissoes(Long id, MissoesDTO missoesDTO) {
 
         MissoesModel missoesModel = missoesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Missao nao encontrada"));
+                .orElseThrow(() -> new MissaoNotFoundException("Missao nao encontrada"));
 
         if (missoesDTO.getNomedamissao() != null) {
             missoesModel.setNomedamissao(missoesDTO.getNomedamissao());
@@ -58,13 +58,11 @@ public class MissoesService {
         return missoesMapper.map(missaoSalva);
     }
 
-    public String deletarmissoes(Long id){
-        if (missoesRepository.existsById(id)){
-             missoesRepository.deleteById(id);
-             return "Missão deletada com sucesso";
-        }else{
-            return "Missão  nao encontrada ";
+    public void deletarmissoes(Long id){
+        if (!missoesRepository.existsById(id)){
+            throw new MissaoNotFoundException("Missão não encontrada com id: " + id);
         }
+        missoesRepository.deleteById(id);
     }
 
 }

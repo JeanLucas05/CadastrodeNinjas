@@ -28,11 +28,8 @@ public class MissoesController {
     }
     @GetMapping("/missoes/{id}")
     public ResponseEntity<ApiResponse> missoesporid(@PathVariable Long id) {
-        return missoesService.findByid(id)
-                .map(missoes -> ResponseEntity.ok()
-                        .body(new ApiResponse("Missao encontrada!", missoes)))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse("Missao nao encontrada!!", null)));
+        MissoesDTO missoesDTO = missoesService.findByid(id);
+        return ResponseEntity.ok().body(new ApiResponse("Missão encontrada!", missoesDTO));
     }
 
     @PatchMapping("/missoes/{id}")

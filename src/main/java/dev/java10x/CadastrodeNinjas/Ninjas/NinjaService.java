@@ -1,6 +1,9 @@
 package dev.java10x.CadastrodeNinjas.Ninjas;
 
 
+import dev.java10x.CadastrodeNinjas.Execptions.EmailAlreadyExistsException;
+import dev.java10x.CadastrodeNinjas.Execptions.MissaoNotFoundException;
+import dev.java10x.CadastrodeNinjas.Execptions.NinjaNotFoundException;
 import dev.java10x.CadastrodeNinjas.Missoes.MissoesModel;
 import org.springframework.stereotype.Service;
 import dev.java10x.CadastrodeNinjas.Missoes.MissoesRepository;
@@ -24,6 +27,9 @@ public class NinjaService {
 
     //Cadastrar novo ninja
     public NinjaDTO cadastrarNinja(NinjaDTO ninjaDTO){
+        if (ninjaRepository.existsByEmail(ninjaDTO.getEmail() )){
+            throw new EmailAlreadyExistsException("Email Ja Cadastrado!!");
+        }
         NinjaModel ninja = ninjaMapper.map(ninjaDTO);
         ninja = ninjaRepository.save(ninja);
         return ninjaMapper.map(ninja);
@@ -35,7 +41,7 @@ public class NinjaService {
 
     }
     public NinjaDTO buscarPorid(Long id ){
-        return ninjaRepository.findById(id).map(ninjaMapper::map).orElse(null);
+        return ninjaRepository.findById(id).map(ninjaMapper::map).orElseThrow(()-> new NinjaNotFoundException("Ninja nao encontrado"));
 
 
     }
@@ -44,12 +50,15 @@ public class NinjaService {
     public NinjaDTO atualizar(Long id, NinjaDTO ninjaDTO){
 
         NinjaModel ninjaModel = ninjaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ninja nao encontrado!!"));
+                .orElseThrow(() -> new NinjaNotFoundException("Ninja nao encontrado!!" + id));
         if(ninjaDTO.getNome() != null){
             ninjaModel.setNome(ninjaDTO.getNome());
 
         }
         if (ninjaDTO.getEmail() != null){
+            if (ninjaRepository.existsByEmailAndIdNot(ninjaDTO.getEmail() , ninjaModel.getId())){
+                throw new EmailAlreadyExistsException("Email já cadastrado");
+            }
             ninjaModel.setEmail(ninjaDTO.getEmail());
         }
         if (ninjaDTO.getIdade() != null ){
@@ -66,7 +75,7 @@ public class NinjaService {
 
             MissoesModel missao = missoesRepository
                     .findById(ninjaDTO.getMissoes().getId())
-                    .orElseThrow(() -> new RuntimeException("Missao nao encontrada"));
+                    .orElseThrow(() -> new MissaoNotFoundException("Missao nao encontrada"));
 
             ninjaModel.setMissoes(missao);
         }
@@ -80,14 +89,11 @@ public class NinjaService {
 
 
     //Deleta ninja por id
-    public String apagarNinja(Long id){
-        if(ninjaRepository.existsById(id)){
-            ninjaRepository.deleteById(id);
-            return "Ninja deletada com sucesso";
-
-        }else{
-            return "Ninja  nao encontrado ";
+    public void deletarninja(Long id){
+        if(!ninjaRepository.existsById(id)){
+            throw new NinjaNotFoundException("Ninja não encontrado com id: " + id);
         }
+        ninjaRepository.deleteById(id);
     }
 
 

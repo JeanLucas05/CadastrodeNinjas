@@ -63,7 +63,7 @@ public class NinjaController {
     public ResponseEntity<ApiResponse> deletarNinjaPorid(@PathVariable Long id)
     {
         if (ninjaService.buscarPorid(id) !=null){
-            ninjaService.apagarNinja(id);
+            ninjaService.deletarninja(id);
             return ResponseEntity.ok().body(new ApiResponse("Ninja deletado com sucesso" , null) );
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Ninja nao encontrado",null));
