@@ -4,7 +4,7 @@ Uma API REST robusta desenvolvida com **Spring Boot** para gerenciar um cadastro
 
 ## 📋 Sobre o Projeto
 
-O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações CRUD completas para ninjas e missões, com validações robustas, tratamento de exceções centralizado e suporte a testes automatizados.
+O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações completas de CRUD e está containerizada com Docker para facilitar o deploy.
 
 ## 🎯 Funcionalidades
 
@@ -31,15 +31,18 @@ O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar inform
 
 | Tecnologia | Versão | Descrição |
 |-----------|--------|-----------|
-| **Java** | 17+ | Linguagem principal |
+| **Java** | 21 | Linguagem principal |
 | **Spring Boot** | 4.0.3 | Framework web e IoC |
 | **Spring Data JPA** | Latest | Camada de persistência |
 | **H2 Database** | Latest | Banco de dados em memória (desenvolvimento) |
 | **MySQL** | Suportado | Banco de dados em produção |
 | **Lombok** | Latest | Geração automática de boilerplate |
 | **Flyway** | Latest | Versionamento de banco de dados |
-| **Maven** | 3.8+ | Gerenciador de dependências |
+| **Maven** | 3.9.9 | Gerenciador de dependências |
 | **Jakarta Persistence** | Latest | JPA implementation |
+| **JUnit 5** | Latest | Framework de testes |
+| **Mockito** | Latest | Mocking para testes |
+| **JaCoCo** | Latest | Cobertura de testes |
 
 ## 🏗️ Arquitetura
 
@@ -221,6 +224,7 @@ O projeto inclui suporte completo para testes automatizados:
 - Validação de persistência no banco de dados
 
 ### Executar Testes
+
 ```bash
 # Executar todos os testes
 mvn test
@@ -234,29 +238,58 @@ mvn test -Dtest=NinjaServiceTest
 
 ## 🐳 Docker
 
-O projeto inclui suporte a containerização:
+O projeto inclui suporte a containerização com multi-stage build:
 
-### Dockerfile
-```dockerfile
-FROM openjdk:17-slim
-COPY target/CadastrodeNinjas-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+### Build da Imagem
+```bash
+docker build -t cadastro-ninjas .
 ```
 
-### Executar com Docker
+### Executar Container
 ```bash
-# Build
-docker build -t cadastro-ninjas .
-
-# Run
 docker run -p 8080:8080 cadastro-ninjas
 ```
+
+### Docker Compose (opcional)
+```bash
+docker-compose up -d
+```
+
+### Dockerfile
+O Dockerfile utiliza multi-stage build para otimizar a imagem:
+
+```dockerfile
+# Build stage
+FROM maven:3.9.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
+RUN mvn clean test verify
+
+# Run stage
+FROM eclipse-temurin:21-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+**Nota:** Os testes são executados automaticamente durante a construção da imagem Docker no stage `mvn clean test verify`. Se algum teste falhar, o build será interrompido.
 
 ## 📦 Instalação e Configuração
 
 ### Pré-requisitos
-- Java 17+
-- Maven 3.8+
+- Java 21+
+- Maven 3.9.9+
+- Docker (opcional)
 - MySQL (opcional, para produção)
 
 ### Passos de Instalação
