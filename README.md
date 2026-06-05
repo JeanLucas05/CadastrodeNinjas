@@ -4,7 +4,7 @@ Uma API REST robusta desenvolvida com **Spring Boot** para gerenciar um cadastro
 
 ## 📋 Sobre o Projeto
 
-O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações completas de CRUD e está containerizada com Docker para facilitar o deploy.
+O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações completas de CRUD com validações robustas, testes automatizados e documentação interativa via Swagger.
 
 ## 🎯 Funcionalidades
 
@@ -43,6 +43,7 @@ O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar inform
 | **JUnit 5** | Latest | Framework de testes |
 | **Mockito** | Latest | Mocking para testes |
 | **JaCoCo** | Latest | Cobertura de testes |
+| **Swagger/SpringDoc-OpenAPI** | Latest | Documentação interativa da API |
 
 ## 🏗️ Arquitetura
 
@@ -203,6 +204,38 @@ Content-Type: application/json
 }
 ```
 
+## 📖 Documentação Swagger/OpenAPI
+
+A API possui documentação interativa completa através do Swagger (OpenAPI 3.0).
+
+### Acessar a Documentação
+
+Após iniciar a aplicação, acesse os seguintes endpoints:
+
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+- **OpenAPI YAML**: `http://localhost:8080/v3/api-docs.yaml`
+
+### Recursos da Documentação
+
+- ✅ Descrição detalhada de todos os endpoints
+- ✅ Exemplos de requisições e respostas
+- ✅ Testes interativos dos endpoints (Try it out)
+- ✅ Schemas de dados (DTOs e Models)
+- ✅ Códigos HTTP e mensagens de erro
+- ✅ Validações documentadas
+
+### Dependências Utilizadas
+
+```xml
+<!-- SpringDoc OpenAPI (Swagger) -->
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.x.x</version>
+</dependency>
+```
+
 ## 🧪 Testes
 
 O projeto inclui suporte completo para testes automatizados:
@@ -315,6 +348,11 @@ mvn spring-boot:run
 http://localhost:8080/boasVindas
 ```
 
+5. **Acesse a Documentação Swagger**
+```
+http://localhost:8080/swagger-ui.html
+```
+
 ## 🔧 Configuração do Banco de Dados
 
 ### H2 (Desenvolvimento)
@@ -352,14 +390,14 @@ spring.jpa.hibernate.ddl-auto=validate
 - #14: Migrar o Banco de Dados (H2 para MySQL)
 - #15: Dockerizar a aplicação
 - #16: Refatoração: Implementação do Mapper e do DTO
+- #17: Documentação Swagger/OpenAPI
 
 ### Issues em Aberto 🔄
-- #17: Implementar o frontend para a aplicação
+- #20: Implementar Frontend (React/Vue)
 
 ## 🚀 Roadmap Futuro
 
 - [ ] Autenticação e Autorização (JWT)
-- [ ] Documentação Swagger/OpenAPI
 - [ ] Cache com Redis
 - [ ] Logging centralizado
 - [ ] Monitoring e Observabilidade
