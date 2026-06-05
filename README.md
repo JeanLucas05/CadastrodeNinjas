@@ -392,8 +392,7 @@ spring.jpa.hibernate.ddl-auto=validate
 - #16: Refatoração: Implementação do Mapper e do DTO
 - #17: Documentação Swagger/OpenAPI
 
-### Issues em Aberto 🔄
-- #20: Implementar Frontend (React/Vue)
+
 
 ## 🚀 Roadmap Futuro
 
