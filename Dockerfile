@@ -7,9 +7,8 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 COPY src ./src
-RUN mvn clean verify
+RUN mvn clean test verify
 
-# Run
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
