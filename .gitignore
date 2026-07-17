@@ -35,3 +35,9 @@ build/
 ninjasdb.mv.db
 .env
 /data
+
+
+### Frontend (Vue/Vite) ###
+src/main/frontend/node_modules/
+src/main/frontend/dist/
+src/main/frontend/.env
