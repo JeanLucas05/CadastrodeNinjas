@@ -4,7 +4,7 @@ Uma API REST robusta desenvolvida com **Spring Boot** para gerenciar um cadastro
 
 ## 📋 Sobre o Projeto
 
-O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. A API fornece operações CRUD completas e está pronta para produção.
+O **Cadastro de Ninjas** é uma aplicação fullstack que permite gerenciar informações de ninjas, associando-os a missões específicas com diferentes níveis de dificuldade. Inclui backend robusto em Spring Boot e frontend interativo em Vue 3.
 
 ## ✅ Status do Projeto
 
@@ -31,7 +31,17 @@ O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar inform
 - ✅ Associar múltiplos ninjas a uma missão
 - ✅ Classificação por níveis de dificuldade
 
+### Frontend (Vue 3 + Vite)
+- ✅ Interface responsiva e moderna
+- ✅ Gerenciamento completo de ninjas e missões
+- ✅ Modal para criar/editar ninjas
+- ✅ Busca de ninjas
+- ✅ Delete com confirmação
+- ✅ Integração completa com API REST
+
 ## 🛠 Tecnologias Utilizadas
+
+### Backend
 
 | Tecnologia | Versão | Descrição |
 |-----------|--------|-----------|
@@ -48,6 +58,15 @@ O **Cadastro de Ninjas** é uma aplicação backend que permite gerenciar inform
 | **Mockito** | Latest | Mocking para testes |
 | **JaCoCo** | Latest | Cobertura de testes |
 | **Swagger/SpringDoc-OpenAPI** | Latest | Documentação interativa da API |
+
+### Frontend
+
+| Tecnologia | Descrição |
+|-----------|-----------|
+| **Vue 3** | Framework JavaScript reativo |
+| **Vite** | Build tool e dev server |
+| **Fetch API** | Chamadas HTTP para a API |
+| **CSS 3** | Estilização moderna |
 
 ## 🏗️ Arquitetura
 
@@ -287,7 +306,7 @@ docker build -t cadastro-ninjas .
 docker run -p 8080:8080 cadastro-ninjas
 ```
 
-### Docker Compose (opcional)
+### Docker Compose
 ```bash
 docker-compose up -d
 ```
@@ -326,10 +345,11 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 ### Pré-requisitos
 - Java 21+
 - Maven 3.9.9+
+- Node.js 18+ (para frontend)
 - Docker (opcional)
 - MySQL (opcional, para produção)
 
-### Passos de Instalação
+### Passos de Instalação - Backend
 
 1. **Clone o repositório**
 ```bash
@@ -357,6 +377,34 @@ http://localhost:8080/boasVindas
 http://localhost:8080/swagger-ui.html
 ```
 
+### Passos de Instalação - Frontend
+
+1. **Navegue até a pasta do frontend**
+```bash
+cd src/main/frontend
+```
+
+2. **Instale as dependências**
+```bash
+npm install
+```
+
+3. **Configure o arquivo .env**
+```bash
+cp .env.example .env
+# Ajuste VITE_API_URL se a API não estiver em localhost:8080
+```
+
+4. **Execute o servidor de desenvolvimento**
+```bash
+npm run dev
+```
+
+5. **Acesse a aplicação**
+```
+http://localhost:5173
+```
+
 ## 🔧 Configuração do Banco de Dados
 
 ### H2 (Desenvolvimento)
@@ -375,9 +423,8 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.jpa.hibernate.ddl-auto=validate
 ```
 
-## 📈 Histórico de Implementação
+## 📈 Issues Completadas ✅
 
-### Issues Completadas ✅
 - #1: Configurar o SpringBoot
 - #2: Configurar classe ninja
 - #3: Implementar Ninja repository
@@ -395,6 +442,9 @@ spring.jpa.hibernate.ddl-auto=validate
 - #15: Dockerizar a aplicação
 - #16: Refatoração: Implementação do Mapper e do DTO
 - #17: Documentação Swagger/OpenAPI
+- #18: Containerização completa (Docker Compose)
+- #20: Implementar Frontend (React/Vue)
+- #25: Documentação da API com Swagger/OpenAPI
 
 ## 👨‍💻 Desenvolvedor
 
