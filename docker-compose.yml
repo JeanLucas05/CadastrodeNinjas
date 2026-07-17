@@ -34,5 +34,15 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
+  frontend:
+    build:
+      context: ./src/main/frontend   # Caminho onde está o Dockerfile e o nginx.conf do Vue
+    container_name: ninjas-web
+    restart: always
+    ports:
+      - "3000:3000"                      # Expõe o Vue/Nginx na porta 80 do seu computador
+    depends_on:
+      - app                          # Só sobe o frontend depois que a API (Spring) estiver rodando
+
 volumes:
   mysql_data:
